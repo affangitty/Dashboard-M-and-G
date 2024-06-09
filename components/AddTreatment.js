@@ -1,5 +1,3 @@
-// components/AddTreatment.js
-
 import React, { useState } from 'react';
 
 const AddTreatment = () => {
