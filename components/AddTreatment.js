@@ -16,7 +16,8 @@ const AddTreatment = ({ addTreatment }) => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     addTreatment(formData);
     setFormData({
       date: '',
@@ -78,7 +79,7 @@ const AddTreatment = ({ addTreatment }) => {
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-600 transition-colors duration-300"
         >
-          Add Treatment
+          Submit
         </button>
       </form>
     </div>
