@@ -1,78 +1,86 @@
 import React, { useState } from 'react';
 
-const AddTreatment = () => {
-  const [treatments, setTreatments] = useState([{ date: '', clinic: '', doctor: '', description: '', notes: '' }]);
+const AddTreatment = ({ addTreatment }) => {
+  const [formData, setFormData] = useState({
+    date: '',
+    hospital: '',
+    doctor: '',
+    description: '',
+  });
 
-  const handleAddTreatment = () => {
-    setTreatments([...treatments, { date: '', clinic: '', doctor: '', description: '', notes: '' }]);
-  };
-
-  const handleChange = (index, e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    const newTreatments = [...treatments];
-    newTreatments[index][name] = value;
-    setTreatments(newTreatments);
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleRemoveTreatment = (index) => {
-    const newTreatments = [...treatments];
-    newTreatments.splice(index, 1);
-    setTreatments(newTreatments);
+  const handleSubmit = () => {
+    addTreatment(formData);
+    setFormData({
+      date: '',
+      hospital: '',
+      doctor: '',
+      description: '',
+    });
   };
 
   return (
-    <div>
-      <h2>Add New Treatments</h2>
-      {treatments.map((treatment, index) => (
-        <div key={index} className="my-4 p-4 border border-gray-300 rounded">
-          <label>Date:</label>
+    <div className="mt-6 p-4 bg-white shadow-lg rounded-lg">
+      <h2 className="text-xl font-semibold mb-4">Add New Treatment</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="date" className="block text-gray-700 font-semibold">Date:</label>
           <input
-            type="text"
+            type="date"
+            id="date"
             name="date"
-            value={treatment.date}
-            onChange={(e) => handleChange(index, e)}
-            className="border border-gray-300 rounded px-2 py-1"
+            value={formData.date}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <label>Clinic:</label>
-          <input
-            type="text"
-            name="clinic"
-            value={treatment.clinic}
-            onChange={(e) => handleChange(index, e)}
-            className="border border-gray-300 rounded px-2 py-1"
-          />
-          <label>Doctor:</label>
-          <input
-            type="text"
-            name="doctor"
-            value={treatment.doctor}
-            onChange={(e) => handleChange(index, e)}
-            className="border border-gray-300 rounded px-2 py-1"
-          />
-          <label>Description:</label>
-          <input
-            type="text"
-            name="description"
-            value={treatment.description}
-            onChange={(e) => handleChange(index, e)}
-            className="border border-gray-300 rounded px-2 py-1"
-          />
-          <label>Notes:</label>
-          <input
-            type="text"
-            name="notes"
-            value={treatment.notes}
-            onChange={(e) => handleChange(index, e)}
-            className="border border-gray-300 rounded px-2 py-1"
-          />
-          <button type="button" onClick={() => handleRemoveTreatment(index)} className="text-red-600 ml-2">
-            Remove
-          </button>
         </div>
-      ))}
-      <button type="button" onClick={handleAddTreatment} className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
-        Add More Treatments
-      </button>
+        <div className="mb-4">
+          <label htmlFor="hospital" className="block text-gray-700 font-semibold">Hospital/Clinic:</label>
+          <input
+            type="text"
+            id="hospital"
+            name="hospital"
+            value={formData.hospital}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="doctor" className="block text-gray-700 font-semibold">Doctor:</label>
+          <input
+            type="text"
+            id="doctor"
+            name="doctor"
+            value={formData.doctor}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="description" className="block text-gray-700 font-semibold">Description:</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-600 transition-colors duration-300"
+        >
+          Add Treatment
+        </button>
+      </form>
     </div>
   );
 };
