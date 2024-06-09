@@ -1,5 +1,3 @@
-// components/Dashboard.js
-
 import React, { useState } from 'react';
 
 const treatmentsData = [
@@ -10,35 +8,22 @@ const treatmentsData = [
 
 const Dashboard = () => {
   const [selectedClinic, setSelectedClinic] = useState('');
+  const [treatments, setTreatments] = useState(treatmentsData);
+
   const filteredTreatments = selectedClinic
-    ? treatmentsData.filter((treatment) => treatment.clinic === selectedClinic)
-    : treatmentsData;
+    ? treatments.filter((treatment) => treatment.clinic === selectedClinic)
+    : treatments;
+
+  const handleAddTreatment = (newTreatment) => {
+    const newTreatmentWithId = { ...newTreatment, id: treatments.length + 1 };
+    setTreatments([...treatments, newTreatmentWithId]);
+  };
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
-      <div className="mb-4">
-        <label htmlFor="clinicFilter" className="mr-2">Filter by Clinic:</label>
-        <select
-          id="clinicFilter"
-          value={selectedClinic}
-          onChange={(e) => setSelectedClinic(e.target.value)}
-          className="border border-gray-300 rounded px-2 py-1"
-        >
-          <option value="">All</option>
-          <option value="Clinic A">Clinic A</option>
-          <option value="Clinic B">Clinic B</option>
-        </select>
-      </div>
-      {filteredTreatments.map((treatment) => (
-        <div key={treatment.id} className="my-4 p-4 border border-gray-300 rounded">
-          <p><strong>Date:</strong> {treatment.date}</p>
-          <p><strong>Clinic:</strong> {treatment.clinic}</p>
-          <p><strong>Doctor:</strong> {treatment.doctor}</p>
-          <p><strong>Description:</strong> {treatment.description}</p>
-          <p><strong>Notes:</strong> {treatment.notes}</p>
-        </div>
-      ))}
+      {/* Filter and treatment list */}
+      {/* Add new treatment form */}
+      <AddTreatment onAddTreatment={handleAddTreatment} />
     </div>
   );
 };
