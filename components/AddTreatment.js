@@ -1,63 +1,78 @@
 import React, { useState } from 'react';
 
-const AddTreatment = ({ onAddTreatment }) => {
-  const [formData, setFormData] = useState({
-    date: '',
-    clinic: '',
-    doctor: '',
-    description: '',
-    notes: '',
-  });
+const AddTreatment = () => {
+  const [treatments, setTreatments] = useState([{ date: '', clinic: '', doctor: '', description: '', notes: '' }]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleAddTreatment = () => {
+    setTreatments([...treatments, { date: '', clinic: '', doctor: '', description: '', notes: '' }]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAddTreatment(formData);
-    setFormData({
-      date: '',
-      clinic: '',
-      doctor: '',
-      description: '',
-      notes: '',
-    });
+  const handleChange = (index, e) => {
+    const { name, value } = e.target;
+    const newTreatments = [...treatments];
+    newTreatments[index][name] = value;
+    setTreatments(newTreatments);
+  };
+
+  const handleRemoveTreatment = (index) => {
+    const newTreatments = [...treatments];
+    newTreatments.splice(index, 1);
+    setTreatments(newTreatments);
   };
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Add New Treatment</h2>
-      <form className="w-full max-w-sm" onSubmit={handleSubmit}>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3 mb-6">
-            <label htmlFor="date" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-              Date
-            </label>
-            <input
-              id="date"
-              name="date"
-              type="date"
-              value={formData.date}
-              onChange={handleChange}
-              className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            />
-          </div>
-          {/* Other form fields */}
-          <div className="w-full px-3 mb-6">
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Add Treatment
-            </button>
-          </div>
+      <h2>Add New Treatments</h2>
+      {treatments.map((treatment, index) => (
+        <div key={index} className="my-4 p-4 border border-gray-300 rounded">
+          <label>Date:</label>
+          <input
+            type="text"
+            name="date"
+            value={treatment.date}
+            onChange={(e) => handleChange(index, e)}
+            className="border border-gray-300 rounded px-2 py-1"
+          />
+          <label>Clinic:</label>
+          <input
+            type="text"
+            name="clinic"
+            value={treatment.clinic}
+            onChange={(e) => handleChange(index, e)}
+            className="border border-gray-300 rounded px-2 py-1"
+          />
+          <label>Doctor:</label>
+          <input
+            type="text"
+            name="doctor"
+            value={treatment.doctor}
+            onChange={(e) => handleChange(index, e)}
+            className="border border-gray-300 rounded px-2 py-1"
+          />
+          <label>Description:</label>
+          <input
+            type="text"
+            name="description"
+            value={treatment.description}
+            onChange={(e) => handleChange(index, e)}
+            className="border border-gray-300 rounded px-2 py-1"
+          />
+          <label>Notes:</label>
+          <input
+            type="text"
+            name="notes"
+            value={treatment.notes}
+            onChange={(e) => handleChange(index, e)}
+            className="border border-gray-300 rounded px-2 py-1"
+          />
+          <button type="button" onClick={() => handleRemoveTreatment(index)} className="text-red-600 ml-2">
+            Remove
+          </button>
         </div>
-      </form>
+      ))}
+      <button type="button" onClick={handleAddTreatment} className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
+        Add More Treatments
+      </button>
     </div>
   );
 };
